@@ -17,7 +17,7 @@
  *   - "bus":        $60
  *
  * Rules:
- *   - Partial hours are rounded UP (e.g., 1.5 hours → 2 hours)
+ *   - Partial hours are ceiled UP (e.g., 1.5 hours → 2 hours)
  *   - The fee should never exceed the daily maximum
  *   - If hours is 0 or negative, return -1
  *   - If vehicleType is not "car", "motorcycle", or "bus", return -1
@@ -25,7 +25,7 @@
  * Examples:
  *   - car, 1 hour     → $5
  *   - car, 3 hours    → $5 + $3 + $3 = $11
- *   - car, 0.5 hours  → rounds up to 1 hour → $5
+ *   - car, 0.5 hours  → ceils up to 1 hour → $5
  *   - car, 24 hours   → $5 + 23×$3 = $74 → capped at $30
  *
  * @param {number} hours - Number of hours parked
@@ -34,4 +34,52 @@
  */
 export function calculateParkingFee(hours, vehicleType) {
   // Your code here
+  if(hours<=0)
+    return -1
+
+  var parkingFee=0;
+  
+  if(vehicleType === "car")
+  {
+    var extraHours = hours-1;
+    
+    extraHours = Math.ceil(extraHours);
+
+    parkingFee = 5 + 3*extraHours;
+
+    if(parkingFee>30)
+      parkingFee =30;
+
+  }
+
+  else if(vehicleType === "motorcycle")
+  {
+     var extraHours = hours-1;
+    
+     extraHours = Math.ceil(extraHours);
+
+     parkingFee = 3 + 2*extraHours;
+
+      if(parkingFee>18)
+      parkingFee =18;
+  }
+
+  else if(vehicleType === "bus")
+  {
+     var extraHours = hours-1;
+    
+     extraHours = Math.ceil(extraHours);
+
+     parkingFee = 10 + 7*extraHours;
+
+      if(parkingFee>60)
+      parkingFee =60;
+  }
+
+  else
+    return -1
+
+
+  return parkingFee;
+
 }
